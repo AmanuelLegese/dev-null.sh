@@ -2,11 +2,7 @@ import { router, useHttp, usePage } from '@inertiajs/react';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 import { store } from '@/actions/App/Http/Controllers/CommitPastelController';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { ActionTooltip } from '@/components/action-tooltip';
 import { useNow } from '@/hooks/use-now';
 import { refreshSharedState, useSharedState } from '@/hooks/use-shared-state';
 import { commitStateKey } from '@/lib/commit-state';
@@ -137,37 +133,36 @@ export function CommitPastelButton({
     );
 
     return (
-        <Tooltip>
-            <TooltipTrigger asChild>
-                {readOnly ? (
-                    <span
-                        aria-label={label}
-                        className={classes}
-                        data-test="pastel-count-readonly"
-                    >
-                        {content}
-                    </span>
-                ) : (
-                    <button
-                        type="button"
-                        onClick={award}
-                        aria-disabled={request.processing}
-                        aria-label={`Give a pastel, ${label}, ${remaining} left today`}
-                        className={cn(
-                            classes,
-                            'transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring',
-                        )}
-                        data-test="award-pastel-button"
-                    >
-                        {content}
-                    </button>
-                )}
-            </TooltipTrigger>
-            <TooltipContent>
-                {readOnly
+        <ActionTooltip
+            label={
+                readOnly
                     ? label
-                    : `Give a pastel · ${remaining} left today · resets at 00:00 UTC`}
-            </TooltipContent>
-        </Tooltip>
+                    : `Give a pastel · ${remaining} left today · resets at 00:00 UTC`
+            }
+        >
+            {readOnly ? (
+                <span
+                    aria-label={label}
+                    className={classes}
+                    data-test="pastel-count-readonly"
+                >
+                    {content}
+                </span>
+            ) : (
+                <button
+                    type="button"
+                    onClick={award}
+                    aria-disabled={request.processing}
+                    aria-label={`Give a pastel, ${label}, ${remaining} left today`}
+                    className={cn(
+                        classes,
+                        'transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring',
+                    )}
+                    data-test="award-pastel-button"
+                >
+                    {content}
+                </button>
+            )}
+        </ActionTooltip>
     );
 }
