@@ -413,7 +413,7 @@ export default function Show({
                           )
                         : undefined
                 }
-                highlightedPeriod={highlightedPeriod}
+                highlightedPeriod={tab === 'stars' ? null : highlightedPeriod}
                 end={
                     tab === 'stars'
                         ? 'That was the first commit you starred.'
